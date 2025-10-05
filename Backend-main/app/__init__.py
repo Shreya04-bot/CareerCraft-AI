@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_cors import CORS
-from routes import routes  # Use absolute import for Render compatibility
+from .routes import routes  # Use absolute import for Render compatibility
 from dotenv import load_dotenv
 
 load_dotenv()  # load .env variables
