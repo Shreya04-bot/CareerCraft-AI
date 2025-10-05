@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import CORS  # ✅ added
 from .openrouter_client import generate_text
 import json
 import re
 
 routes = Blueprint("routes", __name__)
+CORS(routes)  # ✅ ensures preflight OPTIONS gets handled correctly for this blueprint
 
 def clean_json_response(raw_text: str):
     """Clean AI output so it can be safely parsed into JSON"""
@@ -82,7 +84,7 @@ def generate_cover_letter_bodies():
 
     Using the candidate info below, generate **only the body text** (exclude header and signature) 
     for three cover letters — Fresher, Intermediate, Expert — applying for the position "{data.get('jobTitle')}" at "{data.get('companyName')}".
-
+    
     Candidate Info:
     - Name: {data.get('fullName')}
     - Role: {data.get('role')}
