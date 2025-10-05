@@ -1,171 +1,154 @@
 import React from "react";
 
-export default function TemplateModern({ data, theme }) {
+export default function TemplateMinimal({ data, theme }) {
   return (
-    <div id="resume-template" className="p-6 bg-white shadow-md" style={{ minWidth: 420 }}>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-xl font-bold" style={{ color: theme }}>{data.fullName || "Your Name"}</h1>
-          <div className="text-sm text-gray-600">{data.role}</div>
-        </div>
-        <div className="text-right text-xs text-gray-600">
-          {data.email && <div>{data.email}</div>}
-          {data.phone && <div>{data.phone}</div>}
-          {data.location && <div>{data.location}</div>}
-          
-          {/* Social Links Section */}
-          {(data.linkedin || data.github || data.portfolio) && (
-            <div className="mt-1 flex flex-wrap justify-end gap-2">
-              {data.linkedin && (
-                <a 
-                  href={`https://${data.linkedin}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                  style={{ color: theme }}
-                >
-                  LinkedIn
-                </a>
-              )}
-              {data.github && (
-                <a 
-                  href={`https://${data.github}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                  style={{ color: theme }}
-                >
-                  GitHub
-                </a>
-              )}
-              {data.portfolio && (
-                <a 
-                  href={`https://${data.portfolio}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                  style={{ color: theme }}
-                >
-                  Portfolio
-                </a>
-              )}
-            </div>
-          )}
+    <div
+      id="resume-template"
+      className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200"
+      style={{ minWidth: 420 }}
+    >
+      {/* Hero/Header */}
+      <div
+        className="relative py-14 px-8 text-center text-white"
+        style={{
+          background: `linear-gradient(135deg, ${theme} 0%, ${theme}cc 50%, ${theme}99 100%)`,
+        }}
+      >
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative z-10">
+          <h1 className="text-4xl font-extrabold mb-3 tracking-tight drop-shadow-sm">
+            {data.fullName || "Your Name"}
+          </h1>
+          <p className="text-xl font-medium opacity-90 mb-6">
+            {data.role || "Software Developer"}
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            {data.email && (
+              <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
+                📧 {data.email}
+              </div>
+            )}
+            {data.phone && (
+              <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
+                📱 {data.phone}
+              </div>
+            )}
+            {data.location && (
+              <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
+                📍 {data.location}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="md:col-span-2">
-          {data.summary && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Summary</h4>
-              <p className="text-sm text-gray-600">{data.summary}</p>
-            </div>
-          )}
+      {/* Main Content */}
+      <div className="p-8 space-y-10 text-gray-800">
+        {/* Summary */}
+        {data.summary && (
+          <Section title="Summary" theme={theme}>
+            <p className="text-justify">{data.summary}</p>
+          </Section>
+        )}
 
-          {data.experience && data.experience.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Experience</h4>
-              <div className="space-y-3">
-                {data.experience.map((e, i) => (
-                  <div key={i}>
-                    <div className="flex justify-between">
-                      <div className="font-semibold text-sm" style={{ color: theme }}>{e.role}</div>
-                      <div className="text-xs text-gray-500">{e.start} - {e.end}</div>
-                    </div>
-                    <div className="text-sm text-gray-600">{e.company}</div>
-                    {e.description && <div className="text-sm text-gray-600 mt-1">{e.description}</div>}
-                  </div>
-                ))}
+        {/* Experience */}
+        {data.experience?.length > 0 && (
+          <Section title="Work Experience" theme={theme}>
+            {data.experience.map((exp, i) => (
+              <div key={i} className="mb-4">
+                <div className="flex justify-between font-semibold">
+                  <span>{exp.role} @ {exp.company}</span>
+                  <span className="text-gray-500">{exp.start} - {exp.end}</span>
+                </div>
+                {exp.description && <p className="text-sm text-gray-700 mt-1">{exp.description}</p>}
               </div>
-            </div>
-          )}
+            ))}
+          </Section>
+        )}
 
-          {data.projects && data.projects.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Projects</h4>
-              <div className="space-y-3">
-                {data.projects.map((p, i) => (
-                  <div key={i}>
-                    <div className="font-semibold text-sm" style={{ color: theme }}>{p.name}</div>
-                    {p.technologies && <div className="text-xs text-gray-500">{p.technologies}</div>}
-                    {p.description && <div className="text-sm text-gray-600 mt-1">{p.description}</div>}
-                  </div>
-                ))}
+        {/* Education */}
+        {data.education?.length > 0 && (
+          <Section title="Education" theme={theme}>
+            {data.education.map((edu, i) => (
+              <div key={i} className="mb-4">
+                <div className="flex justify-between font-semibold">
+                  <span>{edu.degree}, {edu.institution}</span>
+                  <span className="text-gray-500">{edu.start} - {edu.end}</span>
+                </div>
+                {edu.details && <p className="text-sm text-gray-700 mt-1">{edu.details}</p>}
               </div>
-            </div>
-          )}
-        </div>
+            ))}
+          </Section>
+        )}
 
-        <aside>
-          {data.education && data.education.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Education</h4>
-              <div className="space-y-2">
-                {data.education.map((ed, i) => (
-                  <div key={i} className="text-sm">
-                    <div className="font-medium" style={{ color: theme }}>{ed.degree}</div>
-                    <div className="text-gray-600">{ed.institution}</div>
-                    <div className="text-xs text-gray-500">{ed.start} - {ed.end}</div>
-                  </div>
-                ))}
-              </div>
+        {/* Skills */}
+        {data.skills?.length > 0 && (
+          <Section title="Skills" theme={theme}>
+            <div className="flex flex-wrap gap-2">
+              {data.skills.map((s, i) => (
+                <span
+                  key={i}
+                  className="px-2 py-1 text-sm border rounded"
+                  style={{ borderColor: theme }}
+                >
+                  {s.name} {s.level ? `(${s.level})` : ""}
+                </span>
+              ))}
             </div>
-          )}
+          </Section>
+        )}
 
-          {data.skills && data.skills.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Skills</h4>
-              <div className="flex flex-wrap gap-1">
-                {data.skills.map((s, i) => (
-                  <span 
-                    key={i} 
-                    className="text-xs px-2 py-1 rounded"
-                    style={{ backgroundColor: theme + '20', color: theme }}
-                  >
-                    {s.name}
-                  </span>
-                ))}
+        {/* Projects */}
+        {data.projects?.length > 0 && (
+          <Section title="Projects" theme={theme}>
+            {data.projects.map((p, i) => (
+              <div key={i} className="mb-4">
+                <div className="font-semibold">{p.name}</div>
+                {p.technologies && <div className="text-sm text-gray-600 mb-1">{p.technologies}</div>}
+                {p.description && <p className="text-sm">{p.description}</p>}
               </div>
-            </div>
-          )}
+            ))}
+          </Section>
+        )}
 
-          {data.languages && data.languages.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Languages</h4>
-              <div className="space-y-1">
-                {data.languages.map((lang, i) => (
-                  <div key={i} className="text-sm text-gray-600">
-                    {lang.name} {lang.level && <span className="text-xs">({lang.level})</span>}
-                  </div>
-                ))}
+        {/* Additional Info */}
+        {(data.certificates?.length > 0 || data.languages?.length > 0 || data.interests?.length > 0) && (
+          <Section title="Additional Information" theme={theme}>
+            {data.certificates?.length > 0 && (
+              <div className="mb-3">
+                <strong>Certificates:</strong> {data.certificates.map(c => c.name).join(", ")}
               </div>
-            </div>
-          )}
-
-          {data.certificates && data.certificates.length > 0 && (
-            <div className="mb-4">
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Certificates</h4>
-              <div className="space-y-1">
-                {data.certificates.map((cert, i) => (
-                  <div key={i} className="text-sm text-gray-600">
-                    {cert.name} ({cert.year})
-                  </div>
-                ))}
+            )}
+            {data.languages?.length > 0 && (
+              <div className="mb-3">
+                <strong>Languages:</strong> {data.languages.map(l => `${l.name} (${l.level || ""})`).join(", ")}
               </div>
-            </div>
-          )}
-
-          {data.interests && data.interests.length > 0 && (
-            <div>
-              <h4 className="font-semibold text-sm mb-2" style={{ color: theme }}>Interests</h4>
-              <div className="text-sm text-gray-600">
-                {data.interests.join(', ')}
+            )}
+            {data.interests?.length > 0 && (
+              <div className="mb-3">
+                <strong>Interests:</strong> {data.interests.join(", ")}
               </div>
-            </div>
-          )}
-        </aside>
+            )}
+          </Section>
+        )}
       </div>
+
+      {/* Footer */}
+      <div className="py-4 text-center text-white text-sm" style={{ backgroundColor: theme }}>
+        References available upon request
+      </div>
+    </div>
+  );
+}
+
+/* Helper Component */
+function Section({ title, children, theme }) {
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-3" style={{ color: theme }}>{title}</h2>
+      <div>{children}</div>
+      <hr className="my-4 border-gray-300" />
     </div>
   );
 }
