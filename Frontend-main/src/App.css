@@ -1,0 +1,155 @@
+/* ========================== */
+/* GLOBAL STYLES              */
+/* ========================== */
+
+/* Root & layout */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+/* Logo animation & hover */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Cards & gradient animation */
+.card {
+  padding: 2em;
+}
+.read-the-docs {
+  color: #888;
+}
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-border {
+  background-size: 300% 300%;
+  animation: gradient-move 4s linear infinite;
+}
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+#resume-preview {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#resume-preview * {
+  box-sizing: border-box;
+}
+
+#resume-preview h1, #resume-preview h2, #resume-preview h3, #resume-preview h4 {
+  margin: 0;
+  padding: 0;
+}
+
+#resume-preview section {
+  page-break-inside: avoid;
+}
+
+/* Utility classes */
+.flex { display: flex; }
+.inline-block { display: inline-block; }
+.space-y-4 > * + * { margin-top: 1rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+
+/* Scrollable preview container */
+.resume-preview-scroll {
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+}
+
+/* Color picker dropdown fix */
+.color-picker-dropdown {
+  z-index: 9999 !important;
+}
+
+/* ========================== */
+/* PRINT STYLES - ZERO MARGIN */
+/* ========================== */
+@media print {
+  /* Remove browser default print margins */
+  @page {
+    size: auto;
+    margin: 0 !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    background: white !important;
+  }
+
+  /* Hide everything except the resume */
+  #no-print {
+    display: none !important;
+  }
+
+  #print-only, .printable-resume {
+    display: block !important;
+    position: absolute !important; /* absolute so it starts from top-left */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  /* Ensure all children take full height and colors are preserved */
+  #print-only *, .printable-resume * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Force resume template to stretch from top to bottom */
+  #resume-template {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  /* Remove spacing that might come from flex containers inside template */
+  #resume-template > div {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

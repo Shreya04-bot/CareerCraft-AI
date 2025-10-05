@@ -1,0 +1,29 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables
+.env
+
+# Virtual environments (if you create one)
+venv/
+env/
+
+# SQLite DB (if you ever use one)
+*.sqlite3
+
+# Pytest cache
+.pytest_cache/
+# Logs
+logs/
+*.log
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# IDE/editor files
+.vscode/
+.idea/
+.DS_Store
