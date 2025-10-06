@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ResumeFormSection from "../ResumeForm/ResumeFormSection";
 import ArrayField from "../ResumeForm/ArrayField";
 import { TextField } from "../ResumeForm/FormFields";
-import AIOptionsDisplay from "../../../components/AIOptionsDisplay";
+import AIOptionsDisplay from "../../../components/AIOptionsDisplay1";
 import { generateSummaries } from "../../../api";
 
 export default function ResumeForm({
