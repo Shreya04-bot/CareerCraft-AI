@@ -9,13 +9,9 @@ load_dotenv()  # load .env variables
 def create_app():
     app = Flask(__name__)
 
-    # Explicitly allow localhost for dev and deployed frontend
-    frontend_urls = [
-        "http://localhost:5173",                    # local dev
-        "https://carrercraftai.netlify.app"        # deployed frontend
-    ]
+    # Get frontend URL from env
+    frontend_url = os.getenv("FRONTEND_URL", "https://careercraftai.netlify.app")
+    CORS(app, origins=[frontend_url], supports_credentials=True)
 
-    CORS(app, origins=frontend_urls, supports_credentials=True)
-
-    app.register_blueprint(routes)
+    app.register_blueprint(routes, url_prefix="/api")
     return app
