@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import TopBar from "../../resume/components/TopBar";
 import ResumeDashboard from "./ResumeDashboard";
 import CoverLetterDashboard from "./CoverLetterDashboard";
+import Navbar from "../../components/Navbar"; // import your main Navbar
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ darkMode }) {
   // Active tab: "resume" or "cover-letter"
   const [activeTab, setActiveTab] = useState("resume");
 
@@ -17,6 +18,9 @@ export default function DashboardLayout() {
   // Progress states
   const [resumeProgress, setResumeProgress] = useState(70);
   const [coverProgress, setCoverProgress] = useState(40);
+
+  // Navbar visibility state (for mobile/desktop toggle)
+  const [navbarVisible, setNavbarVisible] = useState(false);
 
   // Data for each section
   const [resumeData, setResumeData] = useState({
@@ -54,7 +58,15 @@ export default function DashboardLayout() {
         progress={progress}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        darkMode={darkMode}
+        navbarVisible={navbarVisible}          // pass toggle state
+        setNavbarVisible={setNavbarVisible}    // pass toggle setter
       />
+
+      {/* Navbar controlled by TopBar */}
+      {navbarVisible && (
+        <Navbar darkMode={darkMode} setDarkMode={() => {}} />
+      )}
 
       {/* Content Area */}
       <main className="flex-1">

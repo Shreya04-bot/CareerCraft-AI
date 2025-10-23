@@ -2,16 +2,16 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-export default function ResumeFormSection({ title, children, initiallyOpen = true }) {
+export default function ResumeFormSection({ title, children, initiallyOpen = false }) {
   const [open, setOpen] = useState(initiallyOpen);
 
   return (
-    <div className="bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-all duration-200">
+    <div className="bg-[#faf7ffff] dark:bg-[#37247d] backdrop-blur-sm rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-all duration-200">
       <div
         className="flex justify-between items-center cursor-pointer group"
         onClick={() => setOpen((s) => !s)}
       >
-        <h3 className="font-semibold text-gray-900 text-lg group-hover:text-indigo-600 transition-colors duration-200">
+        <h3 className="font-semibold text-gray-900 dark:text-[#C7B7FF] text-lg group-hover:text-indigo-600 transition-colors duration-200">
           {title}
         </h3>
         <div className="text-gray-500 group-hover:text-indigo-600 transition-colors duration-200">

@@ -3,7 +3,6 @@ import ResumeForm from "../components/ResumeForm/ResumeForm";
 import ResumePreview from "../components/ResumePreview/ResumePreview";
 import FinalActions from "../components/FinalActions";
 import useResumeData from "../hooks/useResumeData";
-import { TEMPLATES } from "../utils/templates";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, Edit3 } from "lucide-react";
 
@@ -14,14 +13,14 @@ export default function ResumeDashboard({ theme, secondaryColor, template, setDa
   const gradient = (opacity1 = "ff", opacity2 = "cc") => `linear-gradient(to right, ${theme}${opacity1}, ${secondaryColor}${opacity2})`;
   const gradientVertical = (opacity1 = "ff", opacity2 = "cc") => `linear-gradient(to bottom, ${theme}${opacity1}, ${secondaryColor}${opacity2})`;
 
-const toHexAlpha = (opacity) => {
-  const hex = Math.round(opacity * 255).toString(16);
-  return hex.padStart(2, "0");
-};
+  const toHexAlpha = (opacity) => {
+    const hex = Math.round(opacity * 255).toString(16);
+    return hex.padStart(2, "0");
+  };
 
-// Updated gradient functions
-const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
-  `linear-gradient(to right, ${theme}${toHexAlpha(opacity1)}, ${secondaryColor}${toHexAlpha(opacity2)})`;
+  // Updated gradient functions
+  const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
+    `linear-gradient(to right, ${theme}${toHexAlpha(opacity1)}, ${secondaryColor}${toHexAlpha(opacity2)})`;
 
   useEffect(() => {
     if (setProgress) setProgress(progress);
@@ -32,7 +31,7 @@ const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
   }, [resumeData, setData]);
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: gradient1()}}>
+    <div className="min-h-screen flex flex-col" style={{ background: gradient1() }}>
       <div id="no-print">
         <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
           <AnimatePresence mode="wait">
@@ -46,14 +45,24 @@ const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
               >
                 {/* Form Side */}
                 <aside className="w-full xl:w-1/2 h-full flex flex-col">
-                  <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-lg border border-white/30 p-6 flex flex-col h-full">
+                  <div
+                    className="
+                      bg-[#edf5ffe6] dark:bg-[#24115D]
+                      text-gray-900 dark:text-white
+                      backdrop-blur-md rounded-3xl
+                      shadow-[0_4px_30px_rgba(0,0,0,0.1)]
+                      border border-white/30
+                      p-6 flex flex-col h-full
+                    "
+                    >
+
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-2 h-6 rounded-full" style={{ background: gradientVertical() }}></div>
                       <div>
                         <h2 className="text-2xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: gradient() }}>
                           Build Your Resume
                         </h2>
-                        <p className="text-sm text-gray-600">Fill in your details - see live updates</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Fill in your details - see live updates</p>
                       </div>
                     </div>
 
@@ -83,18 +92,14 @@ const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
 
                 {/* Preview Side */}
                 <section className="w-full xl:w-1/2 h-full flex flex-col">
-                  <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-lg border border-white/30 p-6 flex flex-col h-full">
+                  <div className="bg-[#edf5ffe6] dark:bg-[#24115D] backdrop-blur-md rounded-3xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/30 p-6 flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-2 h-6 rounded-full" style={{ background: gradientVertical("ff", "99") }}></div>
                       <div>
                         <h2 className="text-2xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: gradient("ff", "99") }}>
                           Live Preview
                         </h2>
-                        <div className="text-sm text-gray-600 flex gap-2">
-                          <span>Template: <strong>{TEMPLATES.find(t => t.id === template)?.label}</strong></span>
-                          <span>•</span>
-                          <span>Theme: <strong className="capitalize" style={{ color: theme }}>Custom</strong></span>
-                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">See your resume as you build it</p>
                       </div>
                     </div>
 
@@ -116,18 +121,18 @@ const gradient1 = (opacity1 = 0.08, opacity2 = 0.12) =>
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="w-full max-w-4xl mx-auto"
               >
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 flex flex-col">
+                <div className="bg-white/80 dark:bg-[#1a0a3a] backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 dark:border-gray-700 p-6 flex flex-col">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-8" >
                     <div>
                       <h2 className="text-3xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: gradient() }}>
                         Final Resume Preview
                       </h2>
-                      <p className="text-gray-600 mt-2">Review and download your professional resume</p>
+                      <p className="text-gray-600 dark:text-[#C7B7FF] mt-2">Review and download your professional resume</p>
                     </div>
 
                     <button
                       onClick={() => setFinalStep(false)}
-                      className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-all duration-200 font-medium"
+                      className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-[#37247d] border border-gray-200 dark:border-white-700 hover:bg-gray-50 dark:hover:bg-[#2a1a4a] rounded-xl transition-all duration-200 font-medium text-gray-900 dark:text-white"
                     >
                       <Edit3 className="w-4 h-4" />
                       Back to Editor

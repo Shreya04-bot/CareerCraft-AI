@@ -20,6 +20,7 @@ export default function CoverLetterPreview({
     phone: safeData.phone || safeResumeData.phone || "",
     location: safeData.location || safeResumeData.location || "",
     companyName: safeData.companyName || "",
+    companyAddress: safeData.companyAddress || "", 
     hiringManager: safeData.hiringManager || "",
     jobTitle: safeData.jobTitle || "",
     jobDescription: safeData.jobDescription || "",

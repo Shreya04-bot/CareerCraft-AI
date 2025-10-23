@@ -57,18 +57,23 @@ export default function FinalActions({ data }) {
   };
 
   return (
-    <div className="w-full p-6 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className="w-full p-6 bg-white/90 dark:bg-[#37247d] backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
       {/* Info Section */}
       <div className="flex-1 text-center md:text-left">
-        <h3 className="text-lg font-semibold text-gray-900">🎉 Your Resume is Ready!</h3>
-        <p className="text-sm text-gray-600 mt-1">Print or download your professional resume</p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          🎉 Your Resume is Ready!
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+          Print or download your professional resume
+        </p>
       </div>
+
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3 justify-center md:justify-end">
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 font-medium"
+          className="flex items-center gap-2 px-5 py-3 border border-white-700 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 font-medium"
         >
           <Printer className="w-5 h-5" />
           Print Resume
@@ -76,13 +81,13 @@ export default function FinalActions({ data }) {
 
         <button
           onClick={handleTXT}
-          className="flex items-center gap-2 px-5 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 font-medium"
+          className="flex items-center gap-2 px-5 py-3 bg-gray-700 border border-white-700 hover:bg-gray-800 text-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 font-medium"
         >
           <FileText className="w-5 h-5" />
           Download TXT
         </button>
       </div>
-      
+
     </div>
   );
 }

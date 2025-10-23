@@ -23,45 +23,47 @@ Thank you for considering my application. I look forward to the opportunity to d
   // Function to highlight text with HTML
   const highlightText = (text) => {
     if (!text) return '';
-    
+
     let highlighted = text;
-    
+
     if (data.fullName) {
       highlighted = highlighted.replace(
-        new RegExp(data.fullName, 'g'), 
+        new RegExp(data.fullName, 'g'),
         `<strong style="color:${theme}">${data.fullName}</strong>`
       );
     }
-    
+
     if (data.companyName) {
       highlighted = highlighted.replace(
-        new RegExp(data.companyName, 'g'), 
+        new RegExp(data.companyName, 'g'),
         `<strong style="color:${theme}">${data.companyName}</strong>`
       );
     }
-    
+
     if (data.jobTitle) {
       highlighted = highlighted.replace(
-        new RegExp(data.jobTitle, 'g'), 
+        new RegExp(data.jobTitle, 'g'),
         `<strong style="color:${theme}">${data.jobTitle}</strong>`
       );
     }
-    
+
     return highlighted;
   };
 
   return (
-    <div id="cover-letter-template" style={{ 
-      padding: '20px', 
+    <div id="cover-letter-template" style={{
+      padding: '20px',
       fontFamily: 'Georgia, serif, aria-serif',
       maxWidth: '800px',
-      margin: '0 auto'
+      margin: '0 auto',
+      backgroundColor: '#fff',
+      color: '#000',
     }}>
       {/* Sender Information - SIMPLE DIV STRUCTURE */}
       {!hasSenderInfo && (
         <div>
           {data.fullName && <div style={{ fontWeight: 'bold', fontSize: '20px', color: theme }}>{data.fullName}</div>}
-          {data.location && <div style={{ marginTop: '4px', fontFamily :'serif' }}>{data.location}</div>}
+          {data.location && <div style={{ marginTop: '4px', fontFamily: 'serif' }}>{data.location}</div>}
           {data.email && <div style={{ marginTop: '4px' }}>{data.email}</div>}
           {data.phone && <div style={{ marginTop: '4px' }}>{data.phone}</div>}
           <div style={{ marginTop: '8px' }}>{currentDate}</div>
@@ -99,7 +101,7 @@ Thank you for considering my application. I look forward to the opportunity to d
         {content.split('\n\n').map((paragraph, index) => (
           <div key={index} style={{ marginBottom: '16px', textAlign: 'justify' }}>
             {paragraph.split('\n').map((line, lineIndex) => (
-              <div 
+              <div
                 key={lineIndex}
                 dangerouslySetInnerHTML={{ __html: highlightText(line) }}
               />

@@ -1,6 +1,5 @@
-// txtExporter.js - Plain JavaScript only (no JSX)
-
-export function exportToTXT(data, fileName = "resume.txt") {
+// Convert the content into text and (optionally) download or return it
+export function exportToTXT(data, fileName = "resume.txt", returnOnly = false) {
   if (!data) return;
   let lines = [];
 
@@ -82,7 +81,10 @@ export function exportToTXT(data, fileName = "resume.txt") {
     lines.push("");
   }
 
-  const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+  const textContent = lines.join("\n");
+  if (returnOnly) return textContent;
+
+  const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = fileName;
@@ -90,57 +92,61 @@ export function exportToTXT(data, fileName = "resume.txt") {
   URL.revokeObjectURL(link.href);
 }
 
-export function exportCoverLetterToTXT(coverLetterData, resumeData, fileName = "cover-letter.txt") {
-  if (!coverLetterData || !resumeData) return;
+export function exportCoverLetterToTXT(coverLetterData, resumeData, fileName = "cover-letter.txt", returnOnly = false) {
+  if (!coverLetterData || !resumeData) return "";
 
   let lines = [];
   lines.push("COVER LETTER");
   lines.push("=".repeat(50));
   lines.push("");
 
-  // If custom content is NOT complete, add personal info, recipient info, salutation, closing
-  if (!coverLetterData.customComplete) {
-    // Personal Info
-    lines.push(coverLetterData.fullName || "Your Name");
-    if (coverLetterData.location) lines.push(coverLetterData.location);
-    if (coverLetterData.email) lines.push(coverLetterData.email);
-    if (coverLetterData.phone) lines.push(coverLetterData.phone);
-    lines.push(""); // blank line
-    lines.push(coverLetterData.date || new Date().toLocaleDateString());
-    lines.push(""); // blank line
+  // Personal Info
+  lines.push(coverLetterData.fullName || "Your Name");
+  if (coverLetterData.location) lines.push(coverLetterData.location);
+  if (coverLetterData.email) lines.push(coverLetterData.email);
+  if (coverLetterData.phone) lines.push(coverLetterData.phone);
+  lines.push(""); // blank line
+  lines.push(coverLetterData.date || new Date().toLocaleDateString());
+  lines.push(""); // blank line
 
-    // Recipient info
-    if (coverLetterData.hiringManager) lines.push(coverLetterData.hiringManager);
-    if (coverLetterData.companyName) lines.push(coverLetterData.companyName);
-    if (coverLetterData.companyName) lines.push("[Company Address]");
-    lines.push(""); // blank line
+  // Recipient info
+  if (coverLetterData.hiringManager) lines.push(coverLetterData.hiringManager);
+  if (coverLetterData.companyName) lines.push(coverLetterData.companyName);
+  if (coverLetterData.companyAddress) lines.push(coverLetterData.companyAddress);
+  else if (coverLetterData.companyName) lines.push("[Company Address]");
+  lines.push(""); // blank line
 
-    // Salutation
-    lines.push(coverLetterData.hiringManager ? `Dear ${coverLetterData.hiringManager},` : "Dear Hiring Manager,");
-    lines.push(""); // blank line
-  }
+  // Salutation
+  lines.push(coverLetterData.hiringManager ? `Dear ${coverLetterData.hiringManager},` : "Dear Hiring Manager,");
+  lines.push(""); // blank line
 
-  // Content (always include)
+  // Content
   const content = coverLetterData.customContent ||
-    `I am writing to express my interest in the ${coverLetterData.jobTitle || "the position"} at ${coverLetterData.companyName || "your company"}.${coverLetterData.jobDescription ? ` I was particularly impressed by your requirement for ${coverLetterData.jobDescription}.` : ''
+    `I am writing to express my interest in the ${coverLetterData.jobTitle || "the position"} at ${coverLetterData.companyName || "your company"}.${
+      coverLetterData.jobDescription ? ` I was particularly impressed by your requirement for ${coverLetterData.jobDescription}.` : ''
     }
 
-    With my background in ${coverLetterData.role || "my field"} and proven track record of success, I am confident that I possess the skills and experience necessary to excel in this role.
+With my background in ${coverLetterData.role || "my field"} and proven track record of success, I am confident that I possess the skills and experience necessary to excel in this role.
 
-    Thank you for considering my application. I look forward to the opportunity to discuss how my qualifications align with your needs.`;
+Thank you for considering my application. I look forward to the opportunity to discuss how my qualifications align with your needs.`;
 
   content.split("\n\n").forEach((paragraph) => {
     lines.push(paragraph);
     lines.push(""); // blank line between paragraphs
   });
 
-  // Closing (only if custom content is not complete)
-  if (!coverLetterData.customComplete) {
-    lines.push("Sincerely,");
-    lines.push(coverLetterData.fullName || "Your Name");
+  // Closing
+  lines.push("Sincerely,");
+  lines.push(coverLetterData.fullName || "Your Name");
+
+  const finalText = lines.join("\n");
+
+  if (returnOnly) {
+    return finalText; // ✅ return text instead of downloading
   }
 
-  const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+  // Otherwise, download as TXT
+  const blob = new Blob([finalText], { type: "text/plain;charset=utf-8" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = fileName;
@@ -148,11 +154,18 @@ export function exportCoverLetterToTXT(coverLetterData, resumeData, fileName = "
   URL.revokeObjectURL(link.href);
 }
 
-// Universal exporter
-export function exportToTXTUniversal(data, resumeData = null, fileName = "document.txt") {
-  if (resumeData && (data.companyName || data.jobTitle || data.customContent)) {
-    exportCoverLetterToTXT(data, resumeData, fileName);
+export function exportToTXTUniversal(data, resumeData = null, fileName = "document.txt", returnOnly = false, forceCoverLetter = false) {
+  // If forceCoverLetter is true, always call cover letter exporter
+  if (forceCoverLetter) {
+    return exportCoverLetterToTXT(data, resumeData, fileName, returnOnly);
+  }
+
+  // Otherwise, decide automatically
+  const isCoverLetter = resumeData && (data.companyName || data.jobTitle || data.customContent);
+
+  if (isCoverLetter) {
+    return exportCoverLetterToTXT(data, resumeData, fileName, returnOnly);
   } else {
-    exportToTXT(data, fileName);
+    return exportToTXT(data, fileName, returnOnly);
   }
 }

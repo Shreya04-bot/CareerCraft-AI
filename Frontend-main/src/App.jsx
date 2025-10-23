@@ -14,35 +14,32 @@ import Testimonials from "./sections/Testimonials";
 import Timeline from "./components/Timeline";
 import Contact from "./components/Contact";
 
-// 🔥 Lazy-loaded AI Tools
+// Lazy-loaded AI Tools
 const ResumeGenerator = lazy(() => import("../src/resume/pages/DashboardLayout"));
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const location = useLocation(); // <-- Get current route
+  const [darkMode, setDarkMode] = useState(false);
+  const [navbarVisible, setNavbarVisible] = useState(false); // ✅ controls Navbar in Resume
+  const location = useLocation();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    // 🔥 Preload resume & cover components right after homepage loads
-    import("../src/resume/pages/DashboardLayout");
-
+    const timer = setTimeout(() => setLoading(false), 1500);
+    import("../src/resume/pages/DashboardLayout"); // preload
     return () => clearTimeout(timer);
   }, []);
 
   if (loading) return <Loader />;
 
-  // Hide Navbar/Footer on specific routes
   const hideLayout = ["/resume"].includes(location.pathname);
 
   return (
     <div className="bg-white dark:bg-black text-gray-900 dark:text-white">
-      {!hideLayout && <Navbar />}
+      {/* Navbar for non-resume pages */}
+      {!hideLayout && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />}
+
       <Suspense fallback={<Loader />}>
         <Routes>
-          {/* Homepage */}
           <Route
             path="/"
             element={
@@ -55,12 +52,29 @@ function App() {
               </>
             }
           />
-          {/* AI Tools */}
-          <Route path="/resume" element={<ResumeGenerator />} />
+
+          <Route
+            path="/resume"
+            element={
+              <>
+                {/* TopBar with ability to toggle Navbar */}
+                <ResumeGenerator
+                  darkMode={darkMode}
+                  navbarVisible={navbarVisible}
+                  setNavbarVisible={setNavbarVisible}
+                />
+              </>
+            }
+          />
         </Routes>
       </Suspense>
+
+      {/* Scroll & Footer */}
       <ScrollToTopButton />
       {!hideLayout && <Footer />}
+
+      {/* Navbar for Resume page controlled by TopBar */}
+      {hideLayout && navbarVisible && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />}
     </div>
   );
 }
