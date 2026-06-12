@@ -68,15 +68,15 @@ Powered by OpenRouter AI integration to:
 
 ### Landing Page
 
-![Landing Page](screenshots\home.png)
+<img src="./home.png" alt="Landing Page" width="700" />
 
 ### Resume Builder
 
-![Resume Builder](screenshots\resume.png)
+<img src="./resume.png" alt="Resume Builder Page" width="700" />
 
 ### Cover Letter Builder
 
-![Cover Letter Builder](screenshots\cover.png)
+<img src="./cover.png" alt="Cover Letter Page" width="700" />
 
 ---
 
